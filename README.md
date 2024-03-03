@@ -8,10 +8,10 @@ Aplicación de red social que permite a los usuarios registrarse, iniciar sesion
 ```
 PORT=3000
 PATH_APP=http://localhost:3000/api
-POSTGRES_URL=postgresql://postgres:123456@localhost:5432/redsocial
+POSTGRES_URL=postgresql://postgres:123456@localhost:5433/redsocial
 POSTGRES_USER=postgres
 POSTGRES_DB=redsocial
-POSTGRES_PORT=5432
+POSTGRES_PORT=5433
 POSTGRES_PASSWORD=123456
 MAILER_EMAIL=usuario@correo.com
 MAILER_SECRET_KEY=abcd efgh ijkl mnop
@@ -29,4 +29,12 @@ npm install
 5. Ejecutar migracion de entidades de base de datos
 ```
 npx prisma migrate dev --name init
+```
+6. Ejecutar proyecto
+```
+npm run dev
+```
+o
+```
+npm start
 ```

@@ -19,7 +19,8 @@ export class PostDatasourceImpl implements PostDatasource {
             where: { userId }
         })
 
-        return posts.map(post => PostEntity.fromObject({...post, userFullName}))
+        // return posts.map(post => PostEntity.fromObject({...post, userFullName}))
+        return posts.map((post: PostEntity) => PostEntity.fromObject(post))
     }
 
     async findById(id: number, userFullName: string): Promise<PostEntity | null> {
@@ -31,7 +32,8 @@ export class PostDatasourceImpl implements PostDatasource {
             return null
         }
 
-        return PostEntity.fromObject({...post, userFullName})
+        // return PostEntity.fromObject({...post, userFullName})
+        return PostEntity.fromObject(post)
     }
 
     async update(updatePostDto: UpdatePostDto): Promise<PostEntity> {
