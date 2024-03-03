@@ -7,16 +7,13 @@ export class RegisterPostDto {
     ) {}
 
     public static create(props: {[key: string]: any}): [string?, RegisterPostDto?] {
-        const { title, content, likes, userId } = props
+        const { title, content, likes = 0, userId } = props
 
         if (!title) {
             return ['la propiedad title es requerida', undefined]
         }
         if (!content) {
             return ['la propiedad content es requerida', undefined]
-        }
-        if (!likes) {
-            return ['la propiedad likes es requerida', undefined]
         }
         if (!userId) {
             return ['la propiedad userId es requerida', undefined]

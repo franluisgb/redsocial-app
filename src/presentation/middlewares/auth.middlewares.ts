@@ -9,14 +9,17 @@ export class AuthMiddleware {
     ) {}
 
     public validateJWT = async (req: Request, res: Response, next: NextFunction) => {
-        const authorization = req.headers.authorization
+        const authorization = req.headers.authorization || req.headers.token
 
         if (!authorization) {
             return res.status(401).json({error: 'Token invalido' })
         }
 
         try {
-            const token = authorization.split(' ')[1]
+            let token = authorization.toString()
+            if (req.headers.authorization) {
+                token = token.split(' ')[1]
+            }
 
             const isValidToken = await jsonwebtoken.validateToken(token)
 

@@ -18,8 +18,6 @@ export class PostController {
     ) {}
 
     public create = async (req: Request, res: Response) => {
-        // console.log('hacer una publicacion')
-
         const [error, registerPostDto] = RegisterPostDto.create(req.body)
     
         if (error) {
@@ -35,12 +33,10 @@ export class PostController {
                 .catch(error => res.status(400).json({error}))
         }
 
-        return res.status(400).json({error: `Identificador ${registerPostDto!.userId} de usuario no registrado`})
+        return res.status(404).json({error: `Identificador ${registerPostDto!.userId} de usuario no registrado`})
     }
 
     public getByUser = async (req: Request, res: Response) => {
-        // console.log('obtener las publicaciones de un usuario')
-
         const [error, getPostDto] = GetPostDto.get(req.params)
     
         if (error) {
@@ -56,12 +52,10 @@ export class PostController {
                 .catch(error => res.status(400).json({error}))
         }
 
-        return res.status(400).json({error: `Identificador ${getPostDto!.userId} de usuario no registrado`})
+        return res.status(404).json({error: `Identificador ${getPostDto!.userId} de usuario no registrado`})
     }
 
     public get = async (req: Request, res: Response) => {
-        // console.log('obtener una publicacion')
-
         const [error, getPostDto] = GetPostDto.get(req.params)
     
         if (error) {
@@ -77,12 +71,10 @@ export class PostController {
                 .catch(error => res.status(400).json({error}))
         }
 
-        return res.status(400).json({error: `Identificador ${getPostDto!.userId} de usuario no registrado`})
+        return res.status(404).json({error: `Identificador ${getPostDto!.userId} de usuario no registrado`})
     }
 
     public update = async (req: Request, res: Response) => {
-        // console.log('actualizar una publicacion')
-
         const [error, updatePostDto] = UpdatePostDto.update(req.body)
     
         if (error) {
@@ -111,8 +103,6 @@ export class PostController {
     }
 
     public delete = async (req: Request, res: Response) => {
-        // console.log('eliminar una publicacion')
-
         const [error, deletePostDto] = DeletePostDto.delete(req.body)
     
         if (error) {

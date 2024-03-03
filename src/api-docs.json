@@ -1,0 +1,973 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Red Social App",
+    "version": "1.0.0",
+    "contact": {
+      "email": "franluisgb@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id del usuario",
+            "example": 1
+          },
+          "fullName": {
+            "type": "string",
+            "description": "Nombre del usuario",
+            "example": 1
+          },
+          "age": {
+            "type": "integer",
+            "description": "Edad del usuario",
+            "example": 33
+          },
+          "email": {
+            "type": "string",
+            "description": "Email del usuario",
+            "example": "franluisgb@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Contraseña del usuario",
+            "example": "$2a$10$Nvh3MzwbNiRj92lFjjzz0u7tmnA5kkpKtqD.ydP7vF9GyAn4zg8ou"
+          },
+          "status": {
+            "type": "boolean",
+            "description": "Indicador de si el usuario esta activo o eliminado"
+          },
+          "jwt": {
+            "type": "string",
+            "description": "Token de sesión del usuario",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImplbGlhbmFkZnJhbkBnbWFpbC5jb20iLCJpYXQiOjE3MDkzNTk5OTQsImV4cCI6MTcwOTM2NzE5NH0.CEF7-ggUye12PQWMKjNPU8HPLGR_vWtQX8doEnwdOjc"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de creación del usuario"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de actualización del usuario"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de eliminación del usuario"
+          }
+        },
+        "required": ["id", "fullName", "age", "email", "password", "status", "jwt", "createdAt", "updatedAt", "deletedAt"]
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id del post",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "Titulo del post",
+            "example": "Titulo del post"
+          },
+          "content": {
+            "type": "string",
+            "description": "Contenido del post",
+            "example": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa."
+          },
+          "likes": {
+            "type": "integer",
+            "description": "Cantidad de likes del post",
+            "example": 5
+          },
+          "userId": {
+            "type": "integer",
+            "description": "Identificador del usuario que creo el post",
+            "example": 1
+          },
+          "userFullName": {
+            "type": "string",
+            "description": "Nombre del usuario que crea el post",
+            "example": "Francisco Gerardino"
+          },
+          "status": {
+            "type": "boolean",
+            "description": "Indicador de si el post esta activo o eliminado"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de creación del post"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de actualización del post"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de eliminación del post"
+          }
+        },
+        "required": ["id", "title", "content", "likes", "userId", "userFullName", "status", "createdAt", "updatedAt", "deletedAt"]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Descripción del error"
+          }
+        },
+        "required": ["error"]
+      }
+    }
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Registrar usuario",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string",
+                    "description": "Nombre del usuario"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "description": "Edad del usuario"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email del usuario"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Contraseña del usuario"
+                  }
+                },
+                "required": ["fullName", "age", "email", "password"],
+                "example": {
+                  "fullName": "Francisco",
+                  "age": 33,
+                  "email": "franluisgb@gmail.com",
+                  "password": "1234abcd5678"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuario ya registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email del usuario"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Contraseña del usuario"
+                  }
+                },
+                "required": ["email", "password"],
+                "example": {
+                  "email": "franluisgb@gmail.com",
+                  "password": "1234abcd5678"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login exitoso o valido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Logout",
+        "tags": ["Auth"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "Token del usuario",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email del usuario"
+                  }
+                },
+                "required": ["email"],
+                "example": {
+                  "email": "franluisgb@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logout exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token o email invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/{id}": {
+      "get": {
+        "summary": "Obtener información del usuario",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "Token del usuario",
+            "required": "true",
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Identificador del usuario",
+            "required": "true",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Información del Usuario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuario no existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "put": {
+        "summary": "Actualizar información del usuario",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "Token del usuario",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Identificador del usuario"
+                  },
+                  "fullName": {
+                    "type": "string",
+                    "description": "Nombre del usuario"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "description": "Edad del usuario"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email del usuario"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Contraseña del usuario"
+                  }
+                },
+                "required": ["id", "fullName", "age", "email", "password"],
+                "example": {
+                  "id": 1,
+                  "fullName": "Francisco Gerardino",
+                  "age": 34,
+                  "email": "franluisgb@gmail.com",
+                  "password": "abcd1234efgh"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Datos del usuario actualizados correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuario no existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar usuario",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "Token del usuario",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Identificador del usuario"
+                  }
+                },
+                "required": ["id"],
+                "example": {
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario eliminado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuario no existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post": {
+      "post": {
+        "summary": "Registrar post",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "Token del usuario",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Titulo del post"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Contenido del post"
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "description": "Identificador del usuario que crea el post"
+                  }
+                },
+                "required": ["title", "content", "userId"],
+                "example": {
+                  "title": "Titulo del post",
+                  "content": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+                  "userId": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Identificador del usuario no existe para crear el post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar información del post",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "Token del usuario",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Identificador del post"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Titulo del post"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Contenido del post"
+                  },
+                  "likes": {
+                    "type": "integer",
+                    "description": "Cantidad de likes del post"
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "description": "Identificador del usuario al que pertenece el post"
+                  }
+                },
+                "required": ["id", "title", "content", "likes", "userId"],
+                "example": {
+                  "id": 1,
+                  "title": "Titulo editado del post",
+                  "content": "Contenido editado del post",
+                  "likes": 10,
+                  "userId": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Datos del post actualizados correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Identificador del post no existe / Identificador del usuario no existe / Post no pertenece al usuario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar post",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "Token del usuario",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Identificador del post"
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "description": "Identificador del usuario"
+                  }
+                },
+                "required": ["id", "userId"],
+                "example": {
+                  "id": 1,
+                  "userId": 2
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post eliminado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Identificador del post no existe / Identificador del usuario no existe / Post no pertenece al usuario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post/{userId}": {
+      "get": {
+        "summary": "Listado de todos los post del usuario",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "Identificador del usuario",
+            "required": "true",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Identificador del usuario no existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post/{userId}/{id}": {
+      "get": {
+        "summary": "Obtener información del post",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "Identificador del usuario",
+            "required": "true",
+            "type": "integer"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Identificador del post",
+            "required": "true",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Información del Post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Identificador del usuario o post no existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

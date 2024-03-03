@@ -20,8 +20,6 @@ export class AuthController {
     ) {}
 
     public register = async (req: Request, res: Response) => {
-        // console.log('registro de usuario')
-
         const [error, registerUserDto] = RegisterUserDto.create(req.body)
 
         if (error) {
@@ -97,8 +95,6 @@ export class AuthController {
     }
 
     public login = async (req: Request, res: Response) => {
-        // console.log('iniciar sesion de usuario')
-
         const [errorLogin, loginUserDto] = LoginUserDto.login(req.body)
 
         if (errorLogin) {
@@ -139,44 +135,36 @@ export class AuthController {
     }
 
     public logout = async (req: Request, res: Response) => {
-        // console.log('cerrar sesion de usuario')
-
-        const [error, logoutUserDto] = LogoutUserDto.logout({...req.body, jwt: req.headers.authorization})
+        const [error, logoutUserDto] = LogoutUserDto.logout(req.body)
 
         if (error) {
             return res.status(400).json({error: error})
         }
 
-        const isValidToken = await jsonwebtoken.validateToken(logoutUserDto!.jwt)
+        const user = await new GetUser(this.userRepository).executeByEmail(logoutUserDto!.email)
 
-        if (isValidToken) {
-            const user = await new GetUser(this.userRepository).executeByEmail(logoutUserDto!.email)
-
-            if (user && user.status && user.jwt === logoutUserDto!.jwt) {
-                const userProps = {
-                    id: user.id,
-                    fullName: user.fullName,
-                    age: user.age,
-                    email: user.email,
-                    password: user.password,
-                    jwt: ' ',
-                }
-
-                const [errorUpdate, updateUserDto] = UpdateUserDto.update(userProps)
-
-                if (errorUpdate) {
-                    return res.status(400).json({error: errorUpdate})
-                }
-
-                return new UpdateUser(this.userRepository)
-                    .execute(updateUserDto!)
-                    .then(user => res.status(200).json(user))
-                    .catch(error => res.status(400).json({error}))
+        if (user && user.status) {
+            const userProps = {
+                id: user.id,
+                fullName: user.fullName,
+                age: user.age,
+                email: user.email,
+                password: user.password,
+                jwt: ' ',
             }
 
-            return res.status(401).json({error: 'Email invalido'})
+            const [errorUpdate, updateUserDto] = UpdateUserDto.update(userProps)
+
+            if (errorUpdate) {
+                return res.status(400).json({error: errorUpdate})
+            }
+
+            return new UpdateUser(this.userRepository)
+                .execute(updateUserDto!)
+                .then(user => res.status(200).json(user))
+                .catch(error => res.status(400).json({error}))
         }
 
-        return res.status(401).json({error: 'Token invalido'})
+        return res.status(401).json({error: 'Email invalido'})
     }
 }

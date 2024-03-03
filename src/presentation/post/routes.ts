@@ -17,7 +17,7 @@ export class PostRoutes {
 
         const postController = new PostController(postRepository, userRepository)
         const authMiddleware = new AuthMiddleware(userRepository)
-        
+
         router.post('/', (req, res, next) => authMiddleware.validateJWT(req, res, next), (req, res) => postController.create(req, res))
         router.put('/', (req, res, next) => authMiddleware.validateJWT(req, res, next), (req, res) => postController.update(req, res))
         router.get('/:userId', (req, res) => postController.getByUser(req, res))

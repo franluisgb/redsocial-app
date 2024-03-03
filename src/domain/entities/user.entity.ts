@@ -10,7 +10,6 @@ export class UserEntity {
         public createdAt?: Date,
         public updatedAt?: Date,
         public deletedAt?: Date,
-        // public post?: Post[],
     ) {}
 
     public static fromObject(props: {[key: string]: any}): UserEntity {

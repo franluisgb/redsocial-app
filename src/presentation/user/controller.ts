@@ -14,8 +14,6 @@ export class UserController {
     ) {}
 
     public get = async (req: Request, res: Response) => {
-        // console.log('informacion del usuario')
-
         const [error, getUserDto] = GetUserDto.get(req.params)
 
         if (error) {
@@ -32,8 +30,6 @@ export class UserController {
     }
 
     public update = async (req: Request, res: Response) => {
-        // console.log('actualizar informacion del usuario')
-
         const [error, updateUserDtoAux1] = UpdateUserDto.update(req.body)
 
         if (error) {
@@ -68,8 +64,6 @@ export class UserController {
     }
 
     public delete = async (req: Request, res: Response) => {
-        // console.log('eliminar usuario')
-
         const [error, deleteUserDto] = DeleteUserDto.delete(req.body)
 
         if (error) {
