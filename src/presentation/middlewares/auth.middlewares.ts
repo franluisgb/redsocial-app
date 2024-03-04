@@ -4,6 +4,7 @@ import { UserRepository } from '../../domain/repositories/user.repository'
 import { GetUser } from '../../domain/use-case/user/get-user'
 
 export class AuthMiddleware {
+    // Inyeccion de dependencias
     constructor(
         private readonly userRepository: UserRepository,
     ) {}

@@ -13,7 +13,7 @@ export class AppRoutes {
         router.use('/api/user', UserRoutes.routes)
         router.use('/api/post', PostRoutes.routes)
 
-        router.use('/api-doc', swaggerUI.serve, swaggerUI.setup(apiDocsJson))
+        router.use('/api/api-doc', swaggerUI.serve, swaggerUI.setup(apiDocsJson))
 
         return router
     }

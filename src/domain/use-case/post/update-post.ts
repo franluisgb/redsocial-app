@@ -7,6 +7,7 @@ export interface UpdatePostUseCase {
 }
 
 export class UpdatePost implements UpdatePostUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: PostRepository,
     ) {}

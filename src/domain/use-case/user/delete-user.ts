@@ -7,6 +7,7 @@ export interface DeleteUserUseCase {
 }
 
 export class DeleteUser implements DeleteUserUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: UserRepository,
     ) {}

@@ -26,7 +26,7 @@ docker compose up -d
 ```
 npm install
 ```
-5. Ejecutar migracion de entidades de base de datos
+5. Ejecutar migración de entidades de base de datos
 ```
 npx prisma migrate dev --name init
 ```
@@ -37,4 +37,8 @@ npm run dev
 o
 ```
 npm start
+```
+7. Documentación y pruebas de las API's 
+```
+PATH_APP/api-doc/
 ```

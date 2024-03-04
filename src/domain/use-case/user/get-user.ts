@@ -7,6 +7,7 @@ export interface GetUserUseCase {
 }
 
 export class GetUser implements GetUserUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: UserRepository,
     ) {}

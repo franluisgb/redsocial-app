@@ -7,6 +7,7 @@ export interface RegisterUserUseCase {
 }
 
 export class RegisterUser implements RegisterUserUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: UserRepository,
     ) {}

@@ -7,6 +7,7 @@ export interface DeletePostUseCase {
 }
 
 export class DeletePost implements DeletePostUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: PostRepository,
     ) {}

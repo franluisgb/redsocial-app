@@ -6,6 +6,7 @@ import { PostEntity } from '../../domain/entities/post.entity'
 import { PostRepository } from '../../domain/repositories/post.repository'
 
 export class PostRepositoryImpl implements PostRepository {
+    // Inyeccion de dependencias
     constructor(
         private readonly datasource: PostDatasource,
     ) {}

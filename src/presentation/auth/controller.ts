@@ -14,6 +14,7 @@ import { UpdateUserDto } from '../../domain/dto/user/update-user.dto'
 import { LogoutUserDto } from '../../domain/dto/auth/logout-user.dto'
 
 export class AuthController {
+    // Inyeccion de dependencias
     constructor(
         private readonly userRepository: UserRepository,
         private readonly emailService: EmailService,

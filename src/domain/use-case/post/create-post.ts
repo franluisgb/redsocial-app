@@ -7,6 +7,7 @@ export interface RegisterPostUseCase {
 }
 
 export class RegisterPost implements RegisterPostUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: PostRepository,
     ) {}

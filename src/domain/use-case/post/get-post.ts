@@ -7,6 +7,7 @@ export interface GetPostUseCase {
 }
 
 export class GetPost implements GetPostUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: PostRepository,
     ) {}

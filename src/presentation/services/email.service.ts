@@ -16,7 +16,6 @@ export class EmailService {
         }
     })
 
-    // Inyeccion de dependencias
     constructor() {}
     
     public async sendEmail(options: SendMailOptions): Promise<boolean> {

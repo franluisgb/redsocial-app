@@ -1,4 +1,4 @@
-import { EmailService, SendMailOptions } from "../../../presentation/services/email.service"
+import { EmailService, SendMailOptions } from '../../../presentation/services/email.service'
 
 interface SendEmailLogUseCase {
     execute(options: SendMailOptions): Promise<boolean>

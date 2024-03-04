@@ -7,6 +7,7 @@ export interface UpdateUserUseCase {
 }
 
 export class UpdateUser implements UpdateUserUseCase {
+    // Inyeccion de dependencias
     constructor(
         private readonly repository: UserRepository,
     ) {}

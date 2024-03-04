@@ -12,6 +12,7 @@ import { DeletePostDto } from '../../domain/dto/post/delete-post.dto'
 import { DeletePost } from '../../domain/use-case/post/delete-post'
 
 export class PostController {
+    // Inyeccion de dependencias
     constructor(
         private readonly postRepository: PostRepository,
         private readonly userRepository: UserRepository,
