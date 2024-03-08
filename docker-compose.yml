@@ -12,4 +12,13 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql/data
     ports:
-      - 5433:5432
+      - "5432:5432"
+
+  redsocial-app:
+    build: .
+    depends_on:
+      - postgres-db
+    links:
+      - postgres-db
+    ports:
+      - "3000:3000"
